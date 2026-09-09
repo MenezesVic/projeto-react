@@ -1,35 +1,38 @@
-import './App.css'
-import HabitCard from "./components/HabitCard"
-import { initialHabits } from './data/habits'
+import { initialHabits } from "./data/habits";
+import HabitList from "./components/HabitList";
+import Panel from "./components/Panel";
+import "./App.css";
+import { useState } from "react";
+import (useState)
 
 export default function App() {
-  const completedCount = initialHabits.filter(
-    (habit) => habit.completed,
-  ).length;
+  const [habits, setHabits] = useState(initialHabits);
+
+  const completedCount = habits.filter((habit) => habit.completed).length;
+
+  function handleToggleHabit(habitId) {
+    setHabits((currentHabits) =>
+      currentHabits.map((habit) =>
+        habit.id === habitId
+          ? { ...habit, completed: !habit.completed }
+          : habit,
+      ),
+    );
+  }
 
   return (
-    main
+    <main className="app">
+      <header className="hero">
+        <p className="eyebrow">MY DAILY HABITS</p>
+        <h1>Pequenos hábitos, progresso visível.</h1>
+        <p>
+          {completedCount} de {initialHabits.length} hábitos concluídos.
+        </p>
+      </header>
 
-<HabitCard/>      
-
-      <section className="habit-list" aria-label="Hábitos de hoje">
-        <article className="habit-card">
-          <h2>Beber água</h2>
-          <p>Meta: 8 copos</p>
-        </article>
-
-        <article className="habit-card">
-          <h2>Estudar react</h2>
-          <p>Meta: 30 minutos</p>
-        </article>
-
-        <article className="habit-card">
-          <h2>Caminhar</h2>
-          <p>Meta: 20 minutos</p>
-        </article>
-      </section>
-    </main >
-  )
+      <Panel title="Hábitos de hoje">
+        <HabitList habits={habits} onToglle={handleToggleHabit} />
+      </Panel>
+    </main>
+  );
 }
-
-

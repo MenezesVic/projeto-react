@@ -1,20 +1,15 @@
-import habitCard from "./HabitCard";
+import HabitCard from "./HabitCard";
 
-export default function HabitList({ habits }) {
-    if (habits.lenght === 0) {
-        return <p>Nenhum hábito cadastrado.</p>;
-    }
+export default function HabitList({ habits, onToggle }) {
+  if (!habits || habits.length === 0) {
+    return <p>Nenhum hábito cadastrado.</p>;
+  }
 
-    return (
-        <section className="habit-list" aria-label="Hábitos de hoje">
-            {habits.map((habit) => (
-                <habitCard
-                    key={habit.id}
-                    title={habit.title}
-                    goal={habit.goal}
-                    completed={habit.completed}
-                />
-            ))}
-        </section>
-    )
+  return (
+    <section className="habit-list" aria-label="Hábitos de hoje">
+      {habits.map((habit) => (
+        <HabitCard key={habit.id} {...habit} onToggle={onToggle} />
+      ))}
+    </section>
+  );
 }
