@@ -1,61 +1,30 @@
-import { initialHabits } from "./data/habits";
-import HabitList from "./components/HabitList";
-import Panel from "./components/Panel";
+import { NavLink, Route, Routes } from "react-router";
 import "./App.css";
-import { useState } from "react";
-import HabitForm from "./components/HabitForm";
-
+import AboutPage from "./pages/AboutPage";
+import HomePage from "./pages/HomePage";
+import NewHabitPage from "./pages/NewHabitPage";
+import NotFoundPage from "./pages/NotFoundPage";
 export default function App() {
-  const [form, setForm] = useState({
-    title: "",
-    goal: "",
-  });
-
-  <input name="title" value={form.title} onChange={handleChange} />;
-  const [habits, setHabits] = useState(initialHabits);
-
-  const completedCount = habits.filter((habit) => habit.completed).length;
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    setForm((currentForm) => ({
-      ...currentForm,
-      [name]: value,
-    }));
-  }
-
-  function handleAddHabit(newHabit) {
-    setHabits((currentHabits) => [...currentHabits, newHabit]);
-  }
-
-  function handleToggleHabit(habitId) {
-    setHabits((currentHabits) =>
-      currentHabits.map((habit) =>
-        habit.id === habitId
-          ? { ...habit, completed: !habit.completed }
-          : habit,
-      ),
-    );
-  }
-
   return (
-    <main className="app">
-      <header className="hero">
-        <p className="eyebrow">MY DAILY HABITS</p>
-        <h1>Pequenos hábitos, progresso visível.</h1>
-        <p>
-          {completedCount} de {habits.length} hábitos concluídos.
-        </p>
+    <div className="app-shell">
+      <header className="app-header">
+        <strong>My Daily Habits</strong>
+        <nav aria-label="Navegação principal">
+          <NavLink to="/" end>
+            Hoje
+          </NavLink>
+          <NavLink to="/novo">Novo hábito</NavLink>
+          <NavLink to="/sobre">Sobre</NavLink>
+        </nav>
       </header>
-
-      <Panel title="Novo hábito">
-        <HabitForm onAddHabit={handleAddHabit} />
-      </Panel>
-
-      <Panel title="Hábitos de hoje">
-        <HabitList habits={habits} onToggle={handleToggleHabit}></HabitList>
-      </Panel>
-    </main>
+      <main className="app">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/novo" element={<NewHabitPage />} />
+          <Route path="/sobre" element={<AboutPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
