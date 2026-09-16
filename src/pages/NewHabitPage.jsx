@@ -1,5 +1,6 @@
 import HabitForm from "../components/HabitForm";
 import Panel from "../components/Panel";
+
 export default function NewHabitPage() {
   return (
     <>
